@@ -1,19 +1,31 @@
-import axios from "axios";
+import axios from 'axios'
 
-const API_URL = process.env.REACT_APP_TEST_FILE_API;
+const API_URL = process.env.REACT_APP_TEST_FILE_API
 
-const getFiles = async () => {
+const getListFiles = async () => {
   const options = {
     headers: {
-      "content-type": "application/json"
-    },
-  };
+      'content-type': 'application/json'
+    }
+  }
   try {
-    return await axios.get(`${API_URL}/files`, options);
+    return await axios.get(`${API_URL}/files/list`, options)
   } catch {}
-};
+}
 
+const getDataFiles = async (fileName) => {
+  const options = {
+    headers: {
+      'content-type': 'application/json'
+    }
+  }
+  const query = fileName && fileName != "" ? `?fileName=${fileName}` : "";
+  try {
+    return await axios.get(`${API_URL}/files/data${query}`, options)
+  } catch {}
+}
 
 export {
-  getFiles
-};
+  getListFiles,
+  getDataFiles
+}
