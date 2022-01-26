@@ -19,7 +19,7 @@ const getDataFiles = async (fileName) => {
       'content-type': 'application/json'
     }
   }
-  const query = fileName && fileName != "" ? `?fileName=${fileName}` : "";
+  const query = fileName && fileName !== "" ? `?fileName=${fileName}` : "";
   try {
     return await axios.get(`${API_URL}/files/data${query}`, options)
   } catch {}
