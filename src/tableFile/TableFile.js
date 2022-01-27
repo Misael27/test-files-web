@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import './ListFiles.css'
+import './TableFile.css'
 import Table from 'react-bootstrap/Table'
-import { getListFiles, getDataFiles } from '../services/services'
-import Form from 'react-bootstrap/Form'
+import { getDataFiles } from '../services/services'
+import { connect } from "react-redux";
 
-const ListFiles = () => {
+const TableFile = ({ filterName }) => {
   const [rows, setRows] = useState([]);
-  const [fileNames, setFileNames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchListFiles();
-    fetchDataFiles();
-  }, [])
+    fetchDataFiles(filterName);
+  }, [filterName])
 
-  async function fetchListFiles () {
-    const resp = await getListFiles();
-    if (resp) setFileNames(resp.data);
-  }
+ 
   async function fetchDataFiles (fileName) {
     setLoading(true);
     const resp = await getDataFiles(fileName);
@@ -25,18 +20,8 @@ const ListFiles = () => {
     setLoading(false);
   }
 
-  const handleSelectChange = (eventSelect) => {
-    fetchDataFiles(eventSelect.target.value);
-  }
-
   return (
     <>
-      <Form.Select className="select-file" aria-label="File names" onChange={handleSelectChange}>
-        <option value="">Todos</option>
-        {fileNames.map((fileName, idx) => (
-          <option key={idx} value={fileName}>{fileName}</option>
-        ))}
-      </Form.Select>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -75,4 +60,8 @@ const ListFiles = () => {
   )
 }
 
-export default ListFiles
+const mapStateToProps = state => {
+    const { filterName } = state;
+    return { filterName };
+};
+export default connect(mapStateToProps)(TableFile);

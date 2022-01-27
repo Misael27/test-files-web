@@ -2,6 +2,8 @@ import React from 'react'
 import './App.css'
 import Container from 'react-bootstrap/Container'
 import ListFiles from './listFiles/ListFiles'
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 function App () {
   return (
@@ -9,7 +11,9 @@ function App () {
       <Container className='p-3'>
         <h5 className='header p-1'>React Test App</h5>
         <Container className='p-4 mb-4 bg-light rounded-3'>
-          <ListFiles />
+          <Provider store={store}>
+            <ListFiles />
+          </Provider>,
         </Container>
       </Container>
     </div>
